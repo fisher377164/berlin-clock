@@ -1,4 +1,4 @@
-package com.ubs.opsit.interviews.clocks;
+package com.ubs.opsit.interviews.clock;
 
 /**
  * @author fisher

@@ -1,4 +1,4 @@
-package com.ubs.opsit.interviews.exceptions;
+package com.ubs.opsit.interviews.exception;
 
 /**
  * @author fisher

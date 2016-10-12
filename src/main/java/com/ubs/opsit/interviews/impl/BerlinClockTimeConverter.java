@@ -1,10 +1,11 @@
 package com.ubs.opsit.interviews.impl;
 
 import com.ubs.opsit.interviews.TimeConverter;
-import com.ubs.opsit.interviews.exceptions.InvalidTimeException;
+import com.ubs.opsit.interviews.clock.BerlinClockTime;
+import com.ubs.opsit.interviews.exception.InvalidTimeException;
 import com.ubs.opsit.interviews.parser.TimeParser;
-import com.ubs.opsit.interviews.validation.TimeValidator;
-import com.ubs.opsit.interviews.clocks.BerlinClockTime;
+
+import static com.ubs.opsit.interviews.validation.TimeValidator.isTimeValid;
 
 /**
  * @author fisher
@@ -19,7 +20,7 @@ public class BerlinClockTimeConverter implements TimeConverter {
 
     @Override
     public String convertTime(String aTime) {
-        if(!(new TimeValidator().isTimeValid(aTime))){
+        if(!isTimeValid(aTime)){
             throw new InvalidTimeException(aTime);
         }
         TimeParser parser = new TimeParser(aTime);
