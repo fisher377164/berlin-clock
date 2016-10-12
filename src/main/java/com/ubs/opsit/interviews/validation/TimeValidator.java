@@ -17,7 +17,7 @@ public class TimeValidator {
         this.pattern = Pattern.compile(TIME_PATTERN);
     }
 
-    public boolean validate(String time){
+    public boolean isTimeValid(String time){
         return pattern.matcher(time).matches();
     }
 }
