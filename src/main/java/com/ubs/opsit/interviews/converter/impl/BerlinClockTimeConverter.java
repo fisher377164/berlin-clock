@@ -1,7 +1,9 @@
 package com.ubs.opsit.interviews.converter.impl;
 
-import com.ubs.opsit.interviews.converter.TimeConverter;
+import com.ubs.opsit.interviews.clock.Clock;
 import com.ubs.opsit.interviews.clock.impl.BerlinClock;
+import com.ubs.opsit.interviews.converter.TimeConverter;
+import com.ubs.opsit.interviews.parser.TimeParser;
 import com.ubs.opsit.interviews.parser.impl.BerlinClockTimeParser;
 
 /**
@@ -17,9 +19,9 @@ public class BerlinClockTimeConverter implements TimeConverter {
 
     @Override
     public String convertTime(String aTime) {
-        BerlinClockTimeParser parser = new BerlinClockTimeParser(aTime);
-        return new BerlinClock()
-                .getTime(parser.getHours(), parser.getMinutes(), parser.getSeconds());
+        TimeParser parser = new BerlinClockTimeParser(aTime);
+        Clock clock = new BerlinClock();
+        return clock.getTime(parser.getHours(), parser.getMinutes(), parser.getSeconds());
     }
 
 }
