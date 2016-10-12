@@ -1,10 +1,10 @@
 package com.ubs.opsit.interviews.impl;
 
 import com.ubs.opsit.interviews.TimeConverter;
-
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import com.ubs.opsit.interviews.exceptions.InvalidTimeException;
+import com.ubs.opsit.interviews.parser.TimeParser;
+import com.ubs.opsit.interviews.validation.TimeValidator;
+import com.ubs.opsit.interviews.clocks.BerlinClockTime;
 
 /**
  * @author fisher
@@ -12,60 +12,19 @@ import java.util.stream.Stream;
  */
 public class BerlinClockTimeConverter implements TimeConverter {
 
+    /**
+     * @param aTime time in format hh:mm:ss
+     * @return converted time to Berlin Clock
+     */
+
     @Override
     public String convertTime(String aTime) {
-        List<Integer> parts = Stream
-                .of(aTime.split(":"))
-                .map(Integer::parseInt)
-                .collect(Collectors.toList());
-        return getSeconds(parts.get(2)).concat("\n")
-                .concat(getTopHours(parts.get(0))).concat("\n")
-                .concat(getBottomHours(parts.get(0))).concat("\n")
-                .concat(getTopMinutes(parts.get(1))).concat("\n")
-                .concat(getBottomMinutes(parts.get(1)));
-    }
-
-    private String getSeconds(int number) {
-        if (number % 2 == 0) {
-            return "Y";
-        } else {
-            return "O";
+        if(!(new TimeValidator().isTimeValid(aTime))){
+            throw new InvalidTimeException(aTime);
         }
+        TimeParser parser = new TimeParser(aTime);
+        return new BerlinClockTime()
+                .getBerlinClockTime(parser.getHours(), parser.getMinutes(), parser.getSeconds());
     }
 
-    private String getTopHours(int number) {
-        return getOnOff(4, getTopNumberOfOnLamps(number));
-    }
-
-    private String getBottomHours(int number) {
-        return getOnOff(4, number % 5);
-    }
-
-    private String getTopMinutes(int number) {
-        return getOnOff(11, getTopNumberOfOnLamps(number), "Y")
-                .replaceAll("YYY", "YYR");
-    }
-
-    private String getBottomMinutes(int number) {
-        return getOnOff(4, number % 5, "Y");
-    }
-
-    private String getOnOff(int lamps, int onSigns) {
-        return getOnOff(lamps, onSigns, "R");
-    }
-
-    private String getOnOff(int lamps, int onSigns, String onSign) {
-        String out = "";
-        for (int i = 0; i < onSigns; i++) {
-            out += onSign;
-        }
-        for (int i = 0; i < (lamps - onSigns); i++) {
-            out += "O";
-        }
-        return out;
-    }
-
-    private int getTopNumberOfOnLamps(int number) {
-        return (number - (number % 5)) / 5;
-    }
 }
