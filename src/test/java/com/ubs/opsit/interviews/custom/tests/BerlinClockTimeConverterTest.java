@@ -1,7 +1,7 @@
 package com.ubs.opsit.interviews.custom.tests;
 
 import com.ubs.opsit.interviews.TimeConverter;
-import com.ubs.opsit.interviews.exceptions.InvalidTimeException;
+import com.ubs.opsit.interviews.exception.InvalidTimeException;
 import com.ubs.opsit.interviews.impl.BerlinClockTimeConverter;
 import org.junit.BeforeClass;
 import org.junit.Test;
